@@ -1,0 +1,242 @@
+Zonary 编程语言文档 / Zonary Programming Language Documentation
+
+---
+
+重要声明 / Important Notice:
+
+Zonary 是一门整活语言（Esolang），专为娱乐和学习目的设计。它不是一个严肃的、工业级的编程语言，请勿用于实际项目开发。
+
+Zonary is an esoteric programming language (Esolang) designed for fun and educational purposes. It is not a serious, production-grade programming language. Please do not use it for actual project development.
+
+---
+
+English Version / 英文部分
+
+I. Overview
+
+Zonary is a minimalist binary-based esoteric programming language created by TasKin.
+Features:
+No negative numbers, all values are in the range 0~255
+Registers are named by 8-bit binary numbers, you need to remember what 00001010 means
+Code is all 0s and 1s, spaces and newlines are automatically ignored
+Only 8 instructions, each with a fixed length
+Comment format: /. comment content ./
+
+II. Basic Specifications
+
+Zonary has no negative numbers. 8-bit binary represents decimal values 0~255.
+Zonary files use the .zonary extension and are executed by the interpreter.
+Code consists of binary (0 and 1).
+Statement structure: opcode + parameters. All statements with the same opcode have a fixed length.
+Spaces and newlines are automatically ignored, you may format freely.
+Comment format: /. comment content ./, may span multiple lines.
+
+III. Registers
+
+Registers are 8-bit binary, acting like variables. The 8-bit binary is the variable name.
+There are 256 registers, from 00000000 to 11111111.
+
+IV. Instruction Set
+
+1.Opcode 000 / SET (Assign)
+
+Format: 000 register parameter
+Length: 19 bits (3-bit opcode + 8-bit register + 8-bit parameter)
+Description: Assigns the parameter value to the specified register. The parameter is 8-bit binary.
+Register: 8-bit binary indicating the target register number.
+
+2.Opcode 001 / ADD (Addition)
+
+Format: 001 registerA registerB
+Length: 19 bits (3-bit opcode + 8-bit registerA + 8-bit registerB)
+Description: Adds the values of registerA and registerB, stores the result in registerA. The result is automatically truncated to 8 bits (modulo 256, equivalent to & 0xFF).
+registerA: 8-bit binary indicating the target register number, also the first operand.
+registerB: 8-bit binary indicating the source register number, the second operand.
+
+3.Opcode 010 / SUB (Subtraction)
+
+Format: 010 registerA registerB
+Length: 19 bits (3-bit opcode + 8-bit registerA + 8-bit registerB)
+Description: Subtracts the value of registerB from registerA, stores the result in registerA. The result is automatically truncated to 8 bits (modulo 256, equivalent to & 0xFF).
+registerA: 8-bit binary indicating the target register number, also the minuend.
+registerB: 8-bit binary indicating the source register number, the subtrahend.
+
+4.Opcode 011 / JMP (Jump)
+
+Format: 011 parameter mode
+Length: 12 bits (3-bit opcode + 8-bit parameter + 1-bit mode)
+Description: Unconditionally jumps to a specified location.
+Parameter: Meaning varies by mode.
+Mode 0: The parameter is 8-bit binary indicating the target instruction index. The program jumps to instruction N (0-indexed). If the parameter exceeds the total number of instructions, the jump is ignored and a warning is issued.
+Mode 1: The parameter is 8-bit binary indicating a register number. The program jumps to the instruction after the first assignment (where the register is the target of a SET/ADD/SUB instruction) to that register. If the register has never been assigned, the jump is ignored and a warning is issued.
+
+5.Opcode 100 / IFZ (Conditional Jump)
+
+Format: 100 register parameter mode
+Length: 20 bits (3-bit opcode + 8-bit register + 8-bit parameter + 1-bit mode)
+Description: If the specified register value is 0, perform a jump. The jump behavior is identical to the JMP instruction.
+Register: 8-bit binary indicating the register number to be checked.
+Parameter: Meaning varies by mode (same as JMP).
+Mode 0: The parameter is 8-bit binary indicating the target instruction index.
+Mode 1: The parameter is 8-bit binary indicating a register number; jumps to the instruction after the first assignment to that register.
+Note: If the register value is not 0, execution continues to the next instruction without jumping.
+
+6.Opcode 101 / OUT (Output)
+
+Format: 101 parameter mode1 mode2
+Length: 14 bits (3-bit opcode + 8-bit parameter + 2-bit mode1 + 1-bit mode2)
+Description: Outputs a value. Does not automatically append a newline.
+Parameter: Meaning varies by mode2.
+mode1 (2 bits): Controls the output format.
+00: Output as 8-bit binary (e.g., 01001000)
+01: Output as decimal (e.g., 72)
+10: Output as hexadecimal (e.g., 48, uppercase, fixed 2 digits)
+11: Output as ASCII character. If the value is in the range 32~126, the corresponding character is displayed; otherwise, a \xXX escape sequence is shown.
+mode2 (1 bit): Controls the parameter type.
+0: The parameter is an 8-bit binary immediate value; output this value directly.
+1: The parameter is a register number; output the value stored in that register.
+
+7.Opcode 110 / INP (Input)
+
+Format: 110 register mode
+Length: 13 bits (3-bit opcode + 8-bit register + 2-bit mode)
+Description: Reads one byte from standard input and stores it in the specified register. Leading whitespace (spaces, newlines, etc.) is skipped.
+Register: 8-bit binary indicating the target register number.
+Mode (2 bits): Controls the input format.
+00: Must input 8-bit binary (e.g., 01001000), parsed as a value 0~255.
+01: Must input a decimal number (0~255).
+10: Must input hexadecimal (00~FF, case-insensitive).
+11: Must input one ASCII character; its ASCII code is stored.
+If the input is malformed or empty, the register is set to 0.
+
+8.Opcode 111 / SYS (System Call)
+
+Format: 111 parameter mode
+Length: 12 bits (3-bit opcode + 8-bit parameter + 1-bit mode)
+Description: Performs a system function.
+Parameter: 8-bit binary (0~255); meaning varies by mode.
+Mode 0: Terminates the program and outputs the parameter value as the return code. The return code is displayed as 8-bit binary.
+Mode 1: Delays execution. The parameter specifies the number of milliseconds to delay (0~255 ms). After the delay, execution continues with the next instruction.
+If the program runs through all instructions without encountering SYS 0, it ends with a default return code of 00000000.
+
+V. Why Is It Called Zonary?
+
+Zero + One + Binary = Zonary!
+
+---
+
+中文部分 / Chinese Version
+
+一、概述
+Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作。
+特点：
+没有负数，所有值都在 0~255 之间
+寄存器名字是 8 位二进制数字，你需要记住 00001010 是哪个变量
+代码全是 0 和 1，空格和换行会被自动忽略
+只有 8 条指令，每条指令长度固定
+注释格式：/. 注释内容 ./
+
+二、基本规范
+
+Zonary 中没有负数，8 位二进制表示十进制中的 0~255。
+Zonary 文件使用 .zonary 后缀名，由解释器运行。
+代码由二进制（0 和 1）构成。
+语句结构：操作码 + 参数，相同操作码的语句长度固定。
+空格和换行会被自动忽略，你可以随意排版。
+注释格式：/. 注释内容 ./，可以跨行。
+
+三、寄存器
+
+寄存器由 8 位二进制构成，类似于变量。8 位二进制就是变量名。
+一共有 256 个寄存器，从 00000000 到 11111111。
+
+四、指令集
+
+1.操作码 000 / SET（赋值）
+
+格式：000 寄存器 参数
+长度：19 位（操作码 3 位 + 寄存器 8 位 + 参数 8 位）
+说明：将参数的值赋给指定的寄存器。参数为 8 位二进制。
+寄存器：8 位二进制，表示目标寄存器编号。
+
+2.操作码 001 / ADD（加法）
+
+格式：001 寄存器A 寄存器B
+长度：19 位（操作码 3 位 + 寄存器A 8 位 + 寄存器B 8 位）
+说明：将寄存器A 和寄存器B 的值相加，结果存入寄存器A。结果自动截断为 8 位（即对 256 取模，相当于 & 0xFF）。
+寄存器A：8 位二进制，表示目标寄存器编号，同时也是第一个操作数。
+寄存器B：8 位二进制，表示源寄存器编号，作为第二个操作数。
+
+3.操作码 010 / SUB（减法）
+
+格式：010 寄存器A 寄存器B
+长度：19 位（操作码 3 位 + 寄存器A 8 位 + 寄存器B 8 位）
+说明：将寄存器A 的值减去寄存器B 的值，结果存入寄存器A。结果自动截断为 8 位（即对 256 取模，相当于 & 0xFF）。
+寄存器A：8 位二进制，表示目标寄存器编号，同时也是被减数。
+寄存器B：8 位二进制，表示源寄存器编号，作为减数。
+
+4.操作码 011 / JMP（跳转）
+
+格式：011 参数 模式
+长度：12 位（操作码 3 位 + 参数 8 位 + 模式 1 位）
+说明：无条件跳转到指定位置。
+参数：根据模式不同，含义不同。
+模式 0：参数为 8 位二进制，表示目标指令的索引号。程序跳转到第 N 条指令执行（从 0 开始计数）。如果参数超出指令总数，跳转无效并产生警告。
+模式 1：参数为 8 位二进制，表示寄存器编号。程序跳转到该寄存器首次被赋值（即作为 SET/ADD/SUB 指令的目标寄存器）的那条指令的下一条执行。如果该寄存器从未被赋值，跳转无效并产生警告。
+
+5.操作码 100 / IFZ（条件跳转）
+
+格式：100 寄存器 参数 模式
+长度：20 位（操作码 3 位 + 寄存器 8 位 + 参数 8 位 + 模式 1 位）
+说明：如果指定的寄存器值为 0，则执行跳转。跳转方式与 JMP 指令完全相同。
+寄存器：8 位二进制，表示要被检查的寄存器编号。
+参数：根据模式不同，含义不同（同 JMP）。
+模式 0：参数为 8 位二进制，表示目标指令的索引号。
+模式 1：参数为 8 位二进制，表示寄存器编号，跳转到该寄存器首次被赋值指令的下一条。
+注意：若寄存器值不为 0，则顺序执行下一条指令，不产生跳转。
+
+6.操作码 101 / OUT（输出）
+
+格式：101 参数 模式1 模式2
+长度：14 位（操作码 3 位 + 参数 8 位 + 模式1 2 位 + 模式2 1 位）
+说明：输出一个值。输出后不自动换行。
+参数：根据模式2 不同，含义不同。
+模式1（2 位）：控制输出格式。
+00：以 8 位二进制形式输出（如 01001000）
+01：以十进制形式输出（如 72）
+10：以十六进制形式输出（如 48，大写，固定 2 位）
+11：以 ASCII 字符形式输出。若值在 32~126 范围内则显示对应字符，否则显示 \xXX 格式的转义序列。
+模式2（1 位）：控制参数类型。
+0：参数是 8 位二进制立即数，直接输出该值。
+1：参数是寄存器编号，输出该寄存器中存储的值。
+
+7.操作码 110 / INP（输入）
+
+格式：110 寄存器 模式
+长度：13 位（操作码 3 位 + 寄存器 8 位 + 模式 2 位）
+说明：从标准输入读取一个字节，存入指定的寄存器。读取时会跳过前导空白字符（空格、换行等）。
+寄存器：8 位二进制，表示目标寄存器编号。
+模式（2 位）：控制输入格式。
+00：必须输入 8 位二进制（如 01001000），解析为 0~255 的数值。
+01：必须输入十进制数字（0~255）。
+10：必须输入十六进制（00~FF，不区分大小写）。
+11：必须输入一个 ASCII 字符，取其 ASCII 码值。
+若输入格式错误或为空，寄存器将被设置为 0。
+
+8.操作码 111 / SYS（系统调用）
+
+格式：111 参数 模式
+长度：12 位（操作码 3 位 + 参数 8 位 + 模式 1 位）
+说明：执行系统功能。
+参数：8 位二进制（0~255），根据模式不同含义不同。
+模式 0：结束程序，并将参数值作为返回码输出。返回码以 8 位二进制形式显示。
+模式 1：延迟执行。参数表示延迟的毫秒数（0~255 毫秒）。延迟结束后继续执行下一条指令。
+程序若正常执行完所有指令（未遇到 SYS 0），默认以返回码 00000000 结束。
+
+五、为什么叫 Zonary？
+
+Zero + One + Binary = Zonary！
+
+---
+
+v1.3.1 - TasKin
