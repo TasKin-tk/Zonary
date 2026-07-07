@@ -1,5 +1,5 @@
 # TasKin Made
-# Zonary Interpreter - v1.3.1
+# Zonary Interpreter - v1.4
 
 import sys, re, time
 
@@ -10,7 +10,7 @@ def print_banner():  #Thank for using!!!
     print("   ███╔╝  ██║   ██║██║╚██╗██║██╔══██║██╔══██╗  ╚██╔╝  ")
     print("  ███████╗╚██████╔╝██║ ╚████║██║  ██║██║  ██║   ██║   ")
     print("  ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ")
-    print("  Zonary v1.3.1 - TasKin Made")
+    print("  Zonary v1.4 - TasKin Made")
 
 print('---')
 
@@ -43,32 +43,35 @@ while i < n:
     op = code[i:i+3]
     i += 3
 
-    if op == '000':  # SET: 3 + 8 + 8 = 19
-        if i + 16 > n:
+    if op == '000':  # SET: 3 + 8 + 8 + 1 = 20
+        if i + 17 > n:
             print(f'Warning: incomplete SET instruction at bit {i-3}')
             break
         reg = int(code[i:i+8], 2)
-        val = int(code[i+8:i+16], 2)
-        ins.append(('SET', reg, val))
-        i += 16
+        param = int(code[i+8:i+16], 2)
+        mode = int(code[i+16])
+        ins.append(('SET', reg, param, mode))
+        i += 17
 
-    elif op == '001':  # ADD: 3 + 8 + 8 = 19
-        if i + 16 > n:
+    elif op == '001':  # ADD: 3 + 8 + 8 + 1 = 20
+        if i + 17 > n:
             print(f'Warning: incomplete ADD instruction at bit {i-3}')
             break
         reg_a = int(code[i:i+8], 2)
-        reg_b = int(code[i+8:i+16], 2)
-        ins.append(('ADD', reg_a, reg_b))
-        i += 16
+        param = int(code[i+8:i+16], 2)
+        mode = int(code[i+16])
+        ins.append(('ADD', reg_a, param, mode))
+        i += 17
 
-    elif op == '010':  # SUB: 3 + 8 + 8 = 19
-        if i + 16 > n:
+    elif op == '010':  # SUB: 3 + 8 + 8 + 1 = 20
+        if i + 17 > n:
             print(f'Warning: incomplete SUB instruction at bit {i-3}')
             break
         reg_a = int(code[i:i+8], 2)
-        reg_b = int(code[i+8:i+16], 2)
-        ins.append(('SUB', reg_a, reg_b))
-        i += 16
+        param = int(code[i+8:i+16], 2)
+        mode = int(code[i+16])
+        ins.append(('SUB', reg_a, param, mode))
+        i += 17
 
     elif op == '011':  # JMP: 3 + 8 + 1 = 12
         if i + 9 > n:
@@ -149,13 +152,22 @@ while running:
     op = instr[0]
 
     if op == 'SET':
-        reg[instr[1]] = instr[2]
+        if instr[3] == 0:  # mode 0: immediate value
+            reg[instr[1]] = instr[2]
+        else:              # mode 1: copy from register
+            reg[instr[1]] = reg[instr[2]]
 
     elif op == 'ADD':
-        reg[instr[1]] = (reg[instr[1]] + reg[instr[2]]) & 0xFF
+        if instr[3] == 0:  # mode 0: add immediate
+            reg[instr[1]] = (reg[instr[1]] + instr[2]) & 0xFF
+        else:              # mode 1: add register
+            reg[instr[1]] = (reg[instr[1]] + reg[instr[2]]) & 0xFF
 
     elif op == 'SUB':
-        reg[instr[1]] = (reg[instr[1]] - reg[instr[2]]) & 0xFF
+        if instr[3] == 0:  # mode 0: subtract immediate
+            reg[instr[1]] = (reg[instr[1]] - instr[2]) & 0xFF
+        else:              # mode 1: subtract register
+            reg[instr[1]] = (reg[instr[1]] - reg[instr[2]]) & 0xFF
 
     elif op == 'JMP':
         if instr[2] == 0:
