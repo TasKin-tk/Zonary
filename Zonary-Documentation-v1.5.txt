@@ -1,5 +1,5 @@
 Zonary 编程语言文档 / Zonary Programming Language Documentation
-v1.4 - TasKin
+v1.5 - TasKin
 
 ---
 
@@ -75,25 +75,28 @@ mode (1 bit):
 
 4. Opcode 011 / JMP (Jump)
 
-Format: 011 parameter mode
-Length: 12 bits (3-bit opcode + 8-bit parameter + 1-bit mode)
-Description: Unconditionally jumps to a specified location.
-parameter: 8-bit binary; meaning varies by mode.
-mode (1 bit):
-  0: Parameter is an 8-bit binary value indicating the target instruction index (0-indexed). The program jumps to instruction N. If the parameter exceeds the total number of instructions, the jump is ignored and a warning is issued.
-  1: Parameter is a register number. The program jumps to the instruction after the first assignment (where the register is the target of a SET/ADD/SUB instruction) to that register. If the register has never been assigned, the jump is ignored and a warning is issued.
+Format: 011 parameter mode1 mode2
+Length: 13 bits (3-bit opcode + 8-bit parameter + 1-bit mode1 + 1-bit mode2)
+Description: Unconditionally jumps to a specified label, or defines a new label.
+parameter: 8-bit binary; meaning varies by mode2.
+mode1 (1 bit):
+  0: Jump to label. The program jumps to the instruction pointed to by the label. If the label does not exist, the jump is ignored and a warning is issued; execution continues with the next instruction.
+  1: Define label. Associates the next instruction with the label number. If the label number has already been defined, an error is reported and the program terminates.
+mode2 (1 bit):
+  0: Parameter is an 8-bit binary immediate value, representing the label number (0~255).
+  1: Parameter is a register number (0~255); the label number is read from that register.
 
 5. Opcode 100 / IFZ (Conditional Jump)
 
 Format: 100 register parameter mode
 Length: 20 bits (3-bit opcode + 8-bit register + 8-bit parameter + 1-bit mode)
-Description: If the specified register value is 0, perform a jump. The jump behavior is identical to the JMP instruction.
+Description: If the specified register value is 0, jumps to the specified label.
 register: 8-bit binary indicating the register number to be checked.
-parameter: 8-bit binary; meaning varies by mode (same as JMP).
+parameter: 8-bit binary; meaning varies by mode.
 mode (1 bit):
-  0: Parameter is an 8-bit binary value indicating the target instruction index (0-indexed).
-  1: Parameter is a register number; jumps to the instruction after the first assignment to that register.
-Note: If the register value is not 0, execution continues to the next instruction without jumping.
+  0: Parameter is an 8-bit binary immediate value, representing the label number (0~255).
+  1: Parameter is a register number (0~255); the label number is read from that register.
+If the register value is not 0, execution continues to the next instruction without jumping. If the label does not exist, the jump is ignored and a warning is issued; execution continues with the next instruction.
 
 6. Opcode 101 / OUT (Output)
 
@@ -204,25 +207,28 @@ Zonary 文件使用 .zonary 后缀名，由解释器运行。
 
 4. 操作码 011 / JMP（跳转）
 
-格式：011 参数 模式
-长度：12 位（操作码 3 位 + 参数 8 位 + 模式 1 位）
-说明：无条件跳转到指定位置。
-参数：8 位二进制，根据模式不同含义不同。
-模式（1 位）：
-  0：参数为 8 位二进制，表示目标指令的索引号（从 0 开始计数）。程序跳转到第 N 条指令执行。如果参数超出指令总数，跳转无效并产生警告。
-  1：参数为 8 位二进制，表示寄存器编号。程序跳转到该寄存器首次被赋值（即作为 SET/ADD/SUB 指令的目标寄存器）的那条指令的下一条执行。如果该寄存器从未被赋值，跳转无效并产生警告。
+格式：011 参数 模式1 模式2
+长度：13 位（操作码 3 位 + 参数 8 位 + 模式1 1 位 + 模式2 1 位）
+说明：无条件跳转到指定标记，或定义新标记。
+参数：8 位二进制，根据模式2 不同含义不同。
+模式1（1 位）：
+  0：跳转到标记。程序跳转到该标记所指向的指令执行。如果标记不存在，跳转无效并产生警告，继续执行下一条指令。
+  1：定义标记。将当前指令的下一条指令与该标记号关联。如果该标记号已被定义，报错并终止程序。
+模式2（1 位）：
+  0：参数是 8 位二进制立即数，表示标记号（0~255）。
+  1：参数是寄存器编号（0~255），标记号从该寄存器读取。
 
 5. 操作码 100 / IFZ（条件跳转）
 
 格式：100 寄存器 参数 模式
 长度：20 位（操作码 3 位 + 寄存器 8 位 + 参数 8 位 + 模式 1 位）
-说明：如果指定的寄存器值为 0，则执行跳转。跳转方式与 JMP 指令完全相同。
+说明：如果指定的寄存器值为 0，则跳转到指定标记。
 寄存器：8 位二进制，表示要被检查的寄存器编号。
-参数：8 位二进制，根据模式不同含义不同（同 JMP）。
+参数：8 位二进制，根据模式不同含义不同。
 模式（1 位）：
-  0：参数为 8 位二进制，表示目标指令的索引号（从 0 开始计数）。
-  1：参数为 8 位二进制，表示寄存器编号，跳转到该寄存器首次被赋值指令的下一条。
-注意：若寄存器值不为 0，则顺序执行下一条指令，不产生跳转。
+  0：参数是 8 位二进制立即数，表示标记号（0~255）。
+  1：参数是寄存器编号（0~255），标记号从该寄存器读取。
+若寄存器值不为 0，则顺序执行下一条指令，不产生跳转。若标记不存在，跳转无效并产生警告，继续执行下一条指令。
 
 6. 操作码 101 / OUT（输出）
 
@@ -269,4 +275,4 @@ Zero + One + Binary = Zonary！
 
 ---
 
-v1.4 - TasKin
+v1.5 - TasKin
