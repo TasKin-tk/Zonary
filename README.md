@@ -48,7 +48,7 @@ Download the latest version of the interpreter from the [Releases](https://githu
 ```
 git clone https://github.com/TasKin-tk/Zonary.git
 cd Zonary
-python Zonary-version.py test.zonary
+python Zonary-Interpreter-version.py test.zonary
 ```
 
 Replace version with the actual version number.  
@@ -103,7 +103,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 ```
 git clone https://github.com/TasKin-tk/Zonary.git
 cd Zonary
-python Zonary-version.py test.zonary
+python Zonary-Interpreter-version.py test.zonary
 ```
 
 将 version 替换为实际版本号。  
