@@ -123,12 +123,12 @@ Format: 101 parameter mode1 mode2
 Length: 6 + bit-width bits
 Description: Outputs a value. Does not automatically append a newline.
 parameter: Binary number of the program's bit-width; meaning varies by mode2.
-mode1 (2 bits): Controls the output format.
+mode1 (2 bits):
   00: Output as binary (using the program's bit-width, e.g., 01001000 for 8-bit)
   01: Output as decimal
   10: Output as hexadecimal (uppercase, fixed to (bit-width/4) digits)
   11: Output as ASCII character. If the value is in the range 32~126, the corresponding character is displayed; otherwise, a \xXX escape sequence is shown.
-mode2 (1 bit): Controls the parameter type.
+mode2 (1 bit):
   0: Parameter is an immediate value; output this value directly.
   1: Parameter is a register number; output the value stored in that register.
 
@@ -138,7 +138,7 @@ Format: 110 register mode
 Length: 5 + bit-width bits
 Description: Reads one byte from standard input and stores it in the specified register. Leading whitespace (spaces, newlines, etc.) is skipped.
 register: Binary number of the program's bit-width, indicating the target register number.
-mode (2 bits): Controls the input format.
+mode (2 bits):
   00: Must input binary (matching the program's bit-width), parsed as a value 0 to 2^bit-width - 1.
   01: Must input a decimal number (0 to 2^bit-width - 1).
   10: Must input hexadecimal (case-insensitive, fixed to (bit-width/4) digits).
@@ -274,12 +274,12 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 长度：6 + 位数 位
 说明：输出一个值。输出后不自动换行。
 参数：程序位数的二进制数，根据模式2 不同含义不同。
-模式1（2 位）：控制输出格式。
+模式1（2 位）：
   00：以二进制形式输出（使用程序位数，如 8 位时输出 01001000）
   01：以十进制形式输出
   10：以十六进制形式输出（大写，固定为 位数/4 位）
   11：以 ASCII 字符形式输出。若值在 32~126 范围内则显示对应字符，否则显示 \xXX 格式的转义序列。
-模式2（1 位）：控制参数类型。
+模式2（1 位）：
   0：参数是立即数，直接输出该值。
   1：参数是寄存器编号，输出该寄存器中存储的值。
 
@@ -289,7 +289,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 长度：5 + 位数 位
 说明：从标准输入读取一个字节，存入指定的寄存器。读取时会跳过前导空白字符（空格、换行等）。
 寄存器：程序位数的二进制数，表示目标寄存器编号。
-模式（2 位）：控制输入格式。
+模式（2 位）：
   00：必须输入二进制数（匹配程序位数），解析为 0 到 2^位数 - 1 的数值。
   01：必须输入十进制数字（0 到 2^位数 - 1）。
   10：必须输入十六进制（不区分大小写，固定为 位数/4 位）。
