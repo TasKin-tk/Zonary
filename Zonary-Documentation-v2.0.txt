@@ -18,22 +18,21 @@ I. Overview
 Zonary is a minimalist binary-based esoteric programming language created by TasKin.
 
 Features:
-- No negative numbers by default, all values are unsigned integers within the program's bit-width range
 - Registers are named by binary numbers of a configurable bit-width (default 8 bits); you need to remember what 00001010 means
 - Code is all 0s and 1s (plus preprocessor directives), spaces and newlines are automatically ignored
 - Only 8 instructions, each with a fixed length
-- New comment format: < comment content >
+- No negative numbers by default, all values are unsigned integers within the program's bit-width range
 - Preprocessor directives { ... } are executed before the main program logic
 - Program bit-width is configurable, affecting registers, immediates, and labels
 
 II. Basic Specifications
 
-- Zonary v2.0 has no negative numbers by default. Values are unsigned integers within the range defined by the program's bit-width.
 - The program bit-width determines the number of bits used for registers, immediate values, and labels. The default is 8 bits.
 - Registers are named by binary numbers of the program's bit-width. For example, with 8 bits, registers range from 00000000 to 11111111.
 - Zonary files use the .zonary extension and are executed by the interpreter.
 - Code consists of binary (0 and 1), spaces and newlines are automatically ignored.
 - Statement structure: opcode + parameters. All statements with the same opcode have a fixed length.
+- No negative numbers by default, all values are unsigned integers within the program's bit-width range.
 - Comment format: < comment content >, may span multiple lines.
 - Preprocessor directives are enclosed in { ... } and are extracted and executed before the main program.
 
@@ -170,22 +169,21 @@ Zero + One + Binary = Zonary!
 Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作。
 
 特点：
-- 默认没有负数，所有值都在程序位宽所决定的无符号整数范围内
 - 寄存器名字是程序位宽所决定的二进制数字（默认 8 位），你需要记住 00001010 是哪个变量
 - 代码全是 0 和 1（外加预处理语句），空格和换行会被自动忽略
 - 只有 8 条指令，每条指令长度固定
-- 新注释格式：< 注释内容 >
+- 默认没有负数，所有值都在程序位宽所决定的无符号整数范围内
 - 预处理语句 { ... } 在主程序执行前运行
 - 程序位数可配置，影响寄存器、立即数和标记的位数
 
 二、基本规范
 
-- Zonary v2.0 默认没有负数，所有值都是程序位宽所决定的无符号整数。
 - 程序位数决定了寄存器、立即数和标记所使用的位数，默认为 8 位。
 - 寄存器由程序位数所决定的二进制数构成，例如 8 位模式下，寄存器范围从 00000000 到 11111111。
 - Zonary 文件使用 .zonary 后缀名，由解释器运行。
 - 代码由二进制（0 和 1）构成，空格和换行会被自动忽略。
 - 语句结构：操作码 + 参数，相同操作码的语句长度固定。
+- 默认没有负数，所有值都是程序位宽所决定的无符号整数。
 - 注释格式：< 注释内容 >，可以跨行。
 - 预处理语句用 { ... } 包裹，会在主程序执行前被提取并执行。
 
