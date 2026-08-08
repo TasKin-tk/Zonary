@@ -444,7 +444,8 @@ class ZonaryInterpreter:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print('Usage: python zonary.py <file.zonary>')
+        print('Zonary - v2.0 - TasKin')
+        print('Github: github.com/TasKin-tk/Zonary')
         sys.exit(1)
 
     try:
