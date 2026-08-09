@@ -1,13 +1,6 @@
 # Zonary
 
----
-
-A minimalist binary-based esoteric programming language.  
-一个基于二进制的极简整活编程语言。  
-
-**Warning / 警告**:  
-Zonary is an esolang designed for fun and educational purposes. NOT for production.  
-Zonary 是一门整活语言（Esolang），专为娱乐和学习设计，请勿用于实际项目。  
+A minimalist binary-based esoteric programming language.   
 
 ---
 
