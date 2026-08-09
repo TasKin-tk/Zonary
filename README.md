@@ -54,7 +54,7 @@ If you cannot find a suitable executable in Releases, try cloning the repository
 
 | Command | Description |
 |---------|-------------|
-| `zonary examples/example.zonary` | Run the example program |
+| `zonary example.zonary` | Run the example program |
 | `zonary -h` | Show help information |
 | `zonary -v` | Show version information |
 
@@ -121,7 +121,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 
 | 命令 | 说明 |
 |------|------|
-| `zonary examples/example.zonary` | 运行示例程序 |
+| `zonary example.zonary` | 运行示例程序 |
 | `zonary -h` | 显示帮助信息 |
 | `zonary -v` | 显示版本信息 |
 
