@@ -22,7 +22,7 @@ Features:
 - Code is all 0s and 1s (plus preprocessor directives), spaces and newlines are automatically ignored
 - Only 8 instructions, each with a fixed length
 - No negative numbers by default, all values are unsigned integers within the program's bit-width range
-- Preprocessor directives { ... } are executed before the main program logic
+- Preprocessor directives /... are executed before the main program logic
 - Program bit-width is configurable, affecting registers, immediates, and labels
 
 II. Basic Specifications
@@ -34,7 +34,7 @@ II. Basic Specifications
 - Statement structure: opcode + parameters. All statements with the same opcode have a fixed length.
 - No negative numbers by default, all values are unsigned integers within the program's bit-width range.
 - Comment format: < comment content >, may span multiple lines.
-- Preprocessor directives are enclosed in { ... } and are extracted and executed before the main program.
+- Preprocessor directives use the / prefix and are extracted and executed before the main program.
 
 III. Registers and Memory Optimization
 
@@ -47,7 +47,7 @@ III. Registers and Memory Optimization
 
 IV. Preprocessor Directives
 
-Preprocessor directives are enclosed in /... and are processed before the main program execution. They control the runtime environment. Their bit-length is fixed, and spaces or newlines are ignored. Preprocessor directives operate independently of the runtime environment and are not affected by it.
+Preprocessor directives use the / prefix and are processed before the main program execution. They control the runtime environment. Their bit-length is fixed, and spaces or newlines are ignored. Preprocessor directives operate independently of the runtime environment and are not affected by it.
 
 Available directives:
 
@@ -173,7 +173,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 - 代码全是 0 和 1（外加预处理语句），空格和换行会被自动忽略
 - 只有 8 条指令，每条指令长度固定
 - 默认没有负数，所有值都在程序位宽所决定的无符号整数范围内
-- 预处理语句 { ... } 在主程序执行前运行
+- 预处理语句 /... 在主程序执行前运行
 - 程序位数可配置，影响寄存器、立即数和标记的位数
 
 二、基本规范
@@ -185,7 +185,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 - 语句结构：操作码 + 参数，相同操作码的语句长度固定。
 - 默认没有负数，所有值都是程序位宽所决定的无符号整数。
 - 注释格式：< 注释内容 >，可以跨行。
-- 预处理语句用 { ... } 包裹，会在主程序执行前被提取并执行。
+- 预处理语句使用 / 前缀，会在主程序执行前被提取并执行。
 
 三、寄存器与内存优化
 
@@ -198,7 +198,7 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 
 四、预处理语句
 
-预处理语句用 /... 表示，在主程序执行前被处理，用于控制运行时环境，其位数固定，空格或转行会被忽略，预处理语句独立于运行时环境之外，不受运行时环境影响。
+预处理语句使用 / 前缀，在主程序执行前被处理，用于控制运行时环境，其位数固定，空格或转行会被忽略，预处理语句独立于运行时环境之外，不受运行时环境影响。
 
 可用的预处理语句：
 
