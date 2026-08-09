@@ -47,15 +47,15 @@ III. Registers and Memory Optimization
 
 IV. Preprocessor Directives
 
-Preprocessor directives are enclosed in / ... and are processed before the main program execution. They control the runtime environment. Their bit-length is fixed, and spaces or newlines are ignored. Preprocessor directives operate independently of the runtime environment and are not affected by it.
+Preprocessor directives are enclosed in /... and are processed before the main program execution. They control the runtime environment. Their bit-length is fixed, and spaces or newlines are ignored. Preprocessor directives operate independently of the runtime environment and are not affected by it.
 
 Available directives:
 
-1. / 00 parameter parameter - Replaces the default binary characters 0 and 1 with custom ASCII characters. The parameters are 8-bit binary values; the first replaces 0, the second replaces 1 (e.g., / 00 00101110 00101101 uses . instead of 0 and - instead of 1). This affects all subsequent binary literals in the program. Note that the custom ASCII characters cannot be <, >, /, 0, or 1, nor can they be identical to each other. This directive has a fixed length of 18 bits.
+1. /00 parameter parameter - Replaces the default binary characters 0 and 1 with custom ASCII characters. The parameters are 8-bit binary values; the first replaces 0, the second replaces 1 (e.g., /00 00101110 00101101 uses . instead of 0 and - instead of 1). This affects all subsequent binary literals in the program. Note that the custom ASCII characters cannot be <, >, /, 0, or 1, nor can they be identical to each other. This directive has a fixed length of 18 bits.
 
-2. / 01 parameter - Sets the program bit-width. The parameter is an 8-bit binary value representing the new bit-width (e.g., / 01 11111111 sets the bit-width to 255). The bit-width determines the number of bits for registers, immediate values, and labels. The default is 8 (i.e., / 01 00001000). This directive must appear before any register or label references that depend on the new width. This directive has a fixed length of 10 bits.
+2. /01 parameter - Sets the program bit-width. The parameter is an 8-bit binary value representing the new bit-width (e.g., /01 11111111 sets the bit-width to 255). The bit-width determines the number of bits for registers, immediate values, and labels. The default is 8 (i.e., /01 00001000). This directive must appear before any register or label references that depend on the new width. This directive has a fixed length of 10 bits.
 
-Preprocessor directives / 10 ... and / 11 ... are currently reserved for future use and have no effect in this version.
+Preprocessor directives /10 ... and /11 ... are currently reserved for future use and have no effect in this version.
 
 V. Instruction Set
 
@@ -198,15 +198,15 @@ Zonary 是一个基于二进制的极简整活编程语言，由 TasKin 制作�
 
 四、预处理语句
 
-预处理语句用 / ... 表示，在主程序执行前被处理，用于控制运行时环境，其位数固定，空格或转行会被忽略，预处理语句独立于运行时环境之外，不受运行时环境影响。
+预处理语句用 /... 表示，在主程序执行前被处理，用于控制运行时环境，其位数固定，空格或转行会被忽略，预处理语句独立于运行时环境之外，不受运行时环境影响。
 
 可用的预处理语句：
 
-1. / 00 参数 参数 - 将默认的二进制字符 0 和 1 替换为自定义 ASCII 字符。参数为 8 位二进制，前者替换0，后者替换1（例如 / 00 00101110 00101101 用 . 代替 0，用 - 代替 1）。影响之后程序中所有的二进制字面量，需注意，自定义 ASCII 字符不可以是 <，>，/，0，1 之中的字符，也不可以是两个相同字符。该预处理语句位数固定为 18 位。
+1. /00 参数 参数 - 将默认的二进制字符 0 和 1 替换为自定义 ASCII 字符。参数为 8 位二进制，前者替换0，后者替换1（例如 /00 00101110 00101101 用 . 代替 0，用 - 代替 1）。影响之后程序中所有的二进制字面量，需注意，自定义 ASCII 字符不可以是 <，>，/，0，1 之中的字符，也不可以是两个相同字符。该预处理语句位数固定为 18 位。
 
-2. / 01 参数 - 设置程序位数。参数为 8 位二进制，表示新的程序位数（例如 / 01 11111111 将程序位数设为 255）。程序位数决定了寄存器、立即数和标记的位数。默认值为 8（即 / 01 00001000 ）。该语句必须出现在任何依赖于新位宽的寄存器或标记引用之前。该预处理语句位数固定为 10 位。
+2. /01 参数 - 设置程序位数。参数为 8 位二进制，表示新的程序位数（例如 /01 11111111 将程序位数设为 255）。程序位数决定了寄存器、立即数和标记的位数。默认值为 8（即 /01 00001000 ）。该语句必须出现在任何依赖于新位宽的寄存器或标记引用之前。该预处理语句位数固定为 10 位。
 
-预处理语句 / 10 ... 和 / 11 ... 目前预留供后续版本使用，当前版本中无效。
+预处理语句 /10 ... 和 /11 ... 目前预留供后续版本使用，当前版本中无效。
 
 五、指令集
 
